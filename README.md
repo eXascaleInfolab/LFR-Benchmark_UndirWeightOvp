@@ -8,14 +8,22 @@ Each feedback is very welcome. If you have found a bug or have problems, or want
 andrea.lancichinetti@isi.it  
 fortunato@isi.it
 
-
 Turin, 29 October 2009
+
+## Content
+- [Compilation](#compilation)
+- [Usage](#usage)
+  - [Random Seed](#random-seed)
+  - [Accessory Options](#accessory-options)
+- [Examples](#examples)
+- [Output](#output)
+- [Acknowledgement](#acknowledgement)
 
 ## Compilation 
 
 In order to compile, type: `$ make`
 
-# Usage
+## Usage
 
 To run the program, type:  
 ```
@@ -52,8 +60,11 @@ You can set the parameters both writing some of them in the file, and using flag
 The flag `-C` is not mandatory. If you use it, the program will perform a number of rewiring steps to increase the average cluster coefficient up to the wished value.
 Since other constraints must be fulfilled, if the wished value will not be reached after a certain time, the program will stop (displaying a warning).
 
+### Random Seed
 
-## Other Options
+In the file time_seed.dat you can edit the seed which generates the random numbers. After reading, the program will increase this number by 1 (this is done to generate different networks running the program again and again). If the file is erased, it will be produced by the program again.
+
+### Accessory Options
 
 To have a random network use: `-rand`  
 Using this option will set` mut=0`, `muw=0` and `minc=maxc=N`, i.e. there will be one only community.
@@ -79,12 +90,8 @@ The program will produce three files:
 1. Community.dat contains a list of the nodes and their membership (memberships are labelled by integer numbers >=1).
 1. Statistics.dat contains the degree distribution (in logarithmic bins), the community size distribution, the distribution of the mixing parameter for the topology and the weights, and the internal and external weight distribution.
 
-## Seed for the random number generator
-
-In the file time_seed.dat you can edit the seed which generates the random numbers. After reading, the program will increase this number by 1 (this is done to generate different networks running the program again and again). If the file is erased, it will be produced by the program again.
-
-## Thanks
-
-Peter Ronhovde and Conrad Lee, for many usuful advises.  
-Rodrigo Rocha Gomes e Souza, for reporting bugs (and also fixing them).  
-Filippo Radicchi and Jos▌ Ramasco for testing the program.  
+## Acknowledgement
+Thanks to:
+- Peter Ronhovde and Conrad Lee, for many usuful advises
+- Rodrigo Rocha Gomes e Souza, for reporting bugs (and also fixing them)
+- Filippo Radicchi and Jos Ramasco for testing the program
