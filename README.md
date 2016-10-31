@@ -10,6 +10,15 @@ fortunato@isi.it
 
 Turin, 29 October 2009
 
+Original sources:
+
+* [BENCHMARK GRAPHS TO TEST COMMUNITY DETECTION ALGORITHMS](https://sites.google.com/site/santofortunato/inthepress2)
+* [Benchmarks](https://sites.google.com/site/andrealancichinetti/files)
+
+**Reference:** A. Lancichinetti, S. Fortunato, and F. Radicchi.(2008) [Benchmark graphs for testing community detection algorithms.](https://journals.aps.org/pre/abstract/10.1103/PhysRevE.78.046110) Physical Review E, 78.
+
+> This is an extended version of the original LFR framework (see the [changelog](#changelog)) by Artem Lutov <artem@exascale.info>
+
 ## Content
 - [Compilation](#compilation)
 - [Usage](#usage)
@@ -18,6 +27,8 @@ Turin, 29 October 2009
 - [Examples](#examples)
 - [Output](#output)
 - [Acknowledgement](#acknowledgement)
+- [Changelog](#changelog)
+- [Related Projects](#related-projects)
 
 ## Compilation 
 
@@ -32,17 +43,17 @@ To run the program, type:
 [FLAG]		[P]
 -N		number of nodes
 -k		average degree
--maxk		maximum degree
--mut		mixing parameter for the topology
--muw		mixing parameter for the weights
--beta		exponent for the weight distribution
+-maxk	maximum degree
+-mut	mixing parameter for the topology
+-muw	mixing parameter for the weights
+-beta	exponent for the weight distribution
 -t1		minus exponent for the degree sequence
 -t2		minus exponent for the community size distribution
--minc		minimum for the community sizes
--maxc		maximum for the community sizes
+-minc	minimum for the community sizes
+-maxc	maximum for the community sizes
 -on		number of overlapping nodes
 -om		number of memberships of the overlapping nodes
--C              [average clustering coefficient]
+-C		[average clustering coefficient]
 ```
 
 In this program you can assign the number of overlapping nodes (option -on) and assign the number of memberships for them (option `-om`). The other nodes will have only one membership. For instance, typing 
@@ -95,3 +106,17 @@ Thanks to:
 - Peter Ronhovde and Conrad Lee, for many usuful advises
 - Rodrigo Rocha Gomes e Souza, for reporting bugs (and also fixing them)
 - Filippo Radicchi and Jos Ramasco for testing the program
+
+## Changelog
+Additionally implemented features on top of the original LFR Benchmark are the following:
+- Parameter `-cnl` (ommunity nodes list) added to output communities (clusters) as lists of
+nodes to be compatible with NMI evaluation input format (.cnl)
+- Parameter `-name` added to give custom name for the output files
+- `maxk` is automatically decreased if required for the network generation with the specified `k`
+(instead of the generation process termination)
+
+## Related Projects
+- [PyCABeM](https://github.com/eXascaleInfolab/PyCABeM) - Python Benchmarking Framework for the Clustering Algorithms Evaluation. Uses extrinsic (NMIs) and intrinsic (Q) measures for the clusters quality evaluation considering overlaps (nodes membership by multiple clusters).
+- [PyNetConvert](https://raw.githubusercontent.com/eXascaleInfolab/PyNetConvert) - Network (graph, dataset) converter from Pajek, Metis and .nsl formats (including *.ncol*, Stanford SNAP and Edge/Arcs Graph) to *.nsl* (*.nse/a* that are more common than *.snap* and *.ncol*) and *.rcg* (Readable Compact Graph, former *.hig*; used by DAOC / HiReCS libs) formats.
+
+**Note:** Please, [star this project](https://github.com/eXascaleInfolab/LFR-Benchmark_UndirWeightOvp) if you use it.
