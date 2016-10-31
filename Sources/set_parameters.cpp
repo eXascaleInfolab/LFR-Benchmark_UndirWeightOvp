@@ -30,6 +30,12 @@ class Parameters {
 		bool defect;
 		bool randomf;
 		double clustering_coeff;
+
+		bool cnodes;  // List communities as string of nodes per each community (such format is used in NMI evaluation)
+		// Output data filenames
+		string fnameNetwork;
+		string fnameCommunity;
+		string fnameStatistics;
 		
 		
 		bool set(string &, string &);
@@ -71,6 +77,13 @@ Parameters::Parameters() {
 
 		clustering_coeff=unlikely;
 		
+		cnodes = false;
+		
+		fnameNetwork = "network.dat";
+		fnameCommunity = "community.dat";
+		fnameStatistics = "statistics.dat";
+
+
 		command_flags.push_back("-N");			//0
 		command_flags.push_back("-k");			//1
 		command_flags.push_back("-maxk");		//2
@@ -84,6 +97,8 @@ Parameters::Parameters() {
 		command_flags.push_back("-beta");		//10
 		command_flags.push_back("-muw");		//11
 		command_flags.push_back("-C");			//12
+		command_flags.push_back("-cnl");		//13
+		command_flags.push_back("-name");		//14
 			
 		
 };
@@ -205,6 +220,7 @@ bool Parameters::arrange() {
 	cout<<"beta exponent:\t"<<beta<<endl;
 	cout<<"number of overlapping nodes:\t"<<overlapping_nodes<<endl;
 	cout<<"number of memberships of the overlapping nodes:\t"<<overlap_membership<<endl;
+	cout<<"compact communities output format (NMI eval compatible):\t"<<cnodes<<endl;
 	if(clustering_coeff!=unlikely)
 		cout<<"Average clustering coefficient: "<<clustering_coeff<<endl;
 	
@@ -248,7 +264,7 @@ bool Parameters::set(string & flag, string & num) {
 	
 	cout<<"setting... "<<flag<<" "<<num<<endl;
 	double err;
-	if(!cast_string_to_double(num, err)) {
+	if(flag != command_flags[14] && !cast_string_to_double(num, err)) {
 				
 		cerr<<"\n***********************\nERROR while reading parameters"<<endl;
 		return false;
@@ -358,6 +374,19 @@ bool Parameters::set(string & flag, string & num) {
 		clustering_coeff=err;		
 
 	}
+	else if(flag==command_flags[13]) {
+		cnodes=cast_int(err);
+		if(cnodes && fnameCommunity.find(".nmc", fnameCommunity.size() - 4) != string::npos)
+			fnameCommunity.replace(fnameCommunity.size() - 4, 4, ".cnl");
+	}
+	else if(flag==command_flags[14]) {
+		fnameNetwork = fnameCommunity = fnameStatistics = num;
+		fnameNetwork += ".nsa";  // Network, represented by tab separated arcs
+		if(cnodes)
+			fnameCommunity += ".cnl";  // Communities nodes lists / Nodes membership in communities
+		else fnameCommunity += ".nmc";  // Communities nodes lists / Nodes membership in communities
+		fnameStatistics += ".nst";  // Network statistics
+	}
 	else {
 				
 		cerr<<"\n***********************\nERROR while reading parameters: "<<flag<<" is an unknown option"<<endl;
@@ -396,6 +425,15 @@ void statement() {
 	cout<<"-on\t\t[number of overlapping nodes]"<<endl;
 	cout<<"-om\t\t[number of memberships of the overlapping nodes]"<<endl;
 	cout<<"-C\t\t[Average clustering coefficient]"<<endl;
+	cout<<"-cnl\t\t[output communities as strings of nodes (input format for NMI evaluation)]"<<endl;
+	cout<<"-name\t\t[base name for the output files]. It is used for the network, communities"
+		" and statistics; files extensions are added automatically:\n"
+		"\t.nsa  - network, represented by space/tab separated arcs\n"
+		"\t{.cnl, .nmc}  - communities, represented by nodes lists '.cnl' if '-cnl' is used"
+			", otherwise as a nodes membership in communities '.nmc')\n"
+		"\t.nst  - network statistics\n"
+		<<endl;
+
 
 	cout<<"----------------------\n"<<endl;
 	cout<<"It is also possible to set the parameters writing flags and relative numbers in a file. To specify the file, use the option:"<<endl;
@@ -420,7 +458,7 @@ void statement() {
 
 	cout<<"\n-------------------- Examples ---------------------------\n"<<endl;
 	cout<<"Example1:"<<endl;
-	cout<<"./benchmark -N 1000 -k 15 -maxk 50 -muw 0.1 -minc 20 -maxc 50"<<endl;
+	cout<<"./benchmark -N 1000 -k 15 -maxk 50 -muw 0.1 -minc 20 -maxc 50 -cnl 1 -name gen/case1K15"<<endl;
 	cout<<"Example2:"<<endl;
 	cout<<"./benchmark -f flags.dat -t1 3"<<endl;
 	

@@ -28,6 +28,14 @@
  *	Project: Benchmarking community detection programs                           *
  *                                                                               *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *  Parameters extended by Artem Lutov on 04.05.15 (email: luart@ya.ru)          
+ *  Location: eXascale Infolab, University of Fribourg, Switzerland              
+ *
+ *  Changelog:
+ *  - Parameter "-cnl" (ommunity nodes list) added to output communities as line of
+ *  nodes to be compatible with NMI evaluation input format
+ *  - Parameters "-name" added to give custom name for the output files
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
 
 
@@ -35,7 +43,8 @@
 
 
 int print_network(deque<set<int> > & E, const deque<deque<int> > & member_list, const deque<deque<int> > & member_matrix, 
-	deque<int> & num_seq, deque<map <int, double > > & neigh_weigh, double beta, double mu, double mu0) {
+	deque<int> & num_seq, deque<map <int, double > > & neigh_weigh, double beta, double mu, double mu0, bool cnodes,
+	const string& fnameNetwork, const string& fnameCommunity, const string& fnameStatistics) {
 
 	
 	int edges=0;
@@ -95,7 +104,7 @@ int print_network(deque<set<int> > & E, const deque<deque<int> > & member_list, 
 	
 
 
-	ofstream out1("network.dat");
+	ofstream out1(fnameNetwork.c_str());
 	for (int u=0; u<E.size(); u++) {
 
 		set<int>::iterator itb=E[u].begin();
@@ -109,15 +118,30 @@ int print_network(deque<set<int> > & E, const deque<deque<int> > & member_list, 
 		
 
 	
-	ofstream out2("community.dat");
-
-	for (int i=0; i<member_list.size(); i++) {
+	ofstream out2(fnameCommunity.c_str());
+	if(!cnodes) {
+		for (int i=0; i<member_list.size(); i++) {
+			
+			out2<<i+1<<"\t";
+			for (int j=0; j<member_list[i].size(); j++)
+				out2<<member_list[i][j]+1<<" ";
+			out2<<endl;
 		
-		out2<<i+1<<"\t";
-		for (int j=0; j<member_list[i].size(); j++)
-			out2<<member_list[i][j]+1<<" ";
-		out2<<endl;
-	
+		}
+	} else {
+		vector<vector<int> >  communs(member_matrix.size());
+
+		for (int i=0; i<member_list.size(); i++)
+			for (int j=0; j<member_list[i].size(); j++)
+				communs[member_list[i][j]].push_back(i);
+		
+		for(int i = 0; i < communs.size(); ++i) {
+			if(communs[i].empty())
+				continue;
+			for(int j = 0; j < communs[i].size(); ++j)
+				out2 << communs[i][j] + 1 << ' ';
+			out2<<endl;
+		}
 	}
 
 	cout<<"\n\n---------------------------------------------------------------------------"<<endl;
@@ -129,7 +153,7 @@ int print_network(deque<set<int> > & E, const deque<deque<int> > & member_list, 
 
 	
 	
-	ofstream statout("statistics.dat");
+	ofstream statout(fnameStatistics.c_str());
 	
 	deque<int> degree_seq;
 	for (int i=0; i<E.size(); i++)
@@ -684,7 +708,9 @@ int weights(deque<set<int> > & en, const deque<deque<int> > & member_list, const
 
 
 int benchmark(bool excess, bool defect, int num_nodes, double  average_k, int  max_degree, double  tau, double  tau2, 
-	double  mixing_parameter, double  mixing_parameter2, double  beta, int  overlapping_nodes, int  overlap_membership, int  nmin, int  nmax, bool  fixed_range, double ca) {	
+	double  mixing_parameter, double  mixing_parameter2, double  beta, int  overlapping_nodes, int  overlap_membership,
+	int  nmin, int  nmax, bool  fixed_range, double ca, bool cnodes, const string& fnameNetwork, const string& fnameCommunity,
+	const string& fnameStatistics) {
 
 	
 	
@@ -801,7 +827,8 @@ int benchmark(bool excess, bool defect, int num_nodes, double  average_k, int  m
 	
 
 	cout<<"recording network..."<<endl;	
-	print_network(E, member_list, member_matrix, num_seq, neigh_weigh, beta, mixing_parameter2, mixing_parameter);
+	print_network(E, member_list, member_matrix, num_seq, neigh_weigh, beta,
+		mixing_parameter2, mixing_parameter, cnodes, fnameNetwork, fnameCommunity, fnameStatistics);
 
 	
 	
@@ -851,12 +878,15 @@ int main(int argc, char * argv[]) {
 	}
 	
 	
-	erase_file_if_exists("network.dat");
-	erase_file_if_exists("community.dat");
-	erase_file_if_exists("statistics.dat");
+	erase_file_if_exists(p.fnameNetwork);
+	erase_file_if_exists(p.fnameCommunity);
+	erase_file_if_exists(p.fnameStatistics);
 
 	
-	benchmark(p.excess, p.defect, p.num_nodes, p.average_k, p.max_degree, p.tau, p.tau2, p.mixing_parameter,  p.mixing_parameter2,  p.beta, p.overlapping_nodes, p.overlap_membership, p.nmin, p.nmax, p.fixed_range, p.clustering_coeff);	
+	benchmark(p.excess, p.defect, p.num_nodes, p.average_k, p.max_degree,
+		p.tau, p.tau2, p.mixing_parameter,  p.mixing_parameter2,  p.beta,
+		p.overlapping_nodes, p.overlap_membership, p.nmin, p.nmax, p.fixed_range,
+		p.clustering_coeff, p.cnodes, p.fnameNetwork, p.fnameCommunity, p.fnameStatistics);
 		
 	return 0;
 	

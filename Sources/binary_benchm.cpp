@@ -62,12 +62,30 @@ double average_degree(const double &dmax, const double &dmin, const double &gamm
 
 
 //bisection method to find the inferior limit, in order to have the expected average degree
-double solve_dmin(const double& dmax, const double &dmed, const double &gamma) {
+double solve_dmin(int& dmax, const double &dmed, const double &gamma) {
 	
 	double dmin_l=1;
 	double dmin_r=dmax;
 	double average_k1=average_degree(dmin_r, dmin_l, gamma);
 	double average_k2=dmin_r;
+
+	if (average_k1-dmed>0) {
+		// Try to automatically reduce dmax
+		cout << "k1: " << average_k1 << ", dmed: " << dmed << ", k2: " << average_k2 << endl;
+		double tdmax = int(pow(dmed, log(dmax) / log(average_k1)) * (1 - log(1 + average_k1-dmed)/10));
+		double taverage_k1=average_degree(tdmax, dmin_l, gamma);
+		double taverage_k2=tdmax;
+		cout << "WARNING: trying to decrease the maximum degree from "
+			 << dmax << " to " << tdmax << " to converge\n";
+		cout << "k1: " << taverage_k1 << ", dmed: " << dmed << ", k2: " << taverage_k2 << endl;
+		if (!(taverage_k1-dmed>0 || taverage_k2-dmed<0)) {
+			dmax = dmin_r = tdmax;
+			average_k1 = taverage_k1;
+			average_k2 = taverage_k2;
+			cout << "\nWARNING: maximum degree is automatically decreased to "
+				 << dmax << " to converge\n" << endl;
+		}
+	}
 	
 	
 	if ((average_k1-dmed>0) || (average_k2-dmed<0)) {
