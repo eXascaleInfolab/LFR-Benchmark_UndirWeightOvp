@@ -12,7 +12,7 @@ Turin, 29 October 2009
 
 Original sources:
 
-* [BENCHMARK GRAPHS TO TEST COMMUNITY DETECTION ALGORITHMS](https://sites.google.com/site/santofortunato/inthepress2)
+* [Benchmark graphs for testing community detection algorithms](https://sites.google.com/site/santofortunato/inthepress2)
 * [Benchmarks](https://sites.google.com/site/andrealancichinetti/files)
 
 **Reference:** A. Lancichinetti, S. Fortunato, and F. Radicchi.(2008) [Benchmark graphs for testing community detection algorithms.](https://journals.aps.org/pre/abstract/10.1103/PhysRevE.78.046110) Physical Review E, 78.
