@@ -30,7 +30,7 @@ Original sources:
 - [Changelog](#changelog)
 - [Related Projects](#related-projects)
 
-## Compilation 
+## Compilation
 
 In order to compile, type: `$ make`
 
@@ -41,22 +41,31 @@ To run the program, type:
 ./benchmark [FLAG] [P]
 
 [FLAG]		[P]
--N		number of nodes
--k		average degree
--maxk	maximum degree
--mut	mixing parameter for the topology
--muw	mixing parameter for the weights
--beta	exponent for the weight distribution
--t1		minus exponent for the degree sequence
--t2		minus exponent for the community size distribution
--minc	minimum for the community sizes
--maxc	maximum for the community sizes
--on		number of overlapping nodes
--om		number of memberships of the overlapping nodes
--C		[average clustering coefficient]
+-N		[number of nodes]
+-k		[average degree]
+-maxk		[maximum degree]
+-mut		[mixing parameter for the topology]
+-muw		[mixing parameter for the weights]
+-beta		[exponent for the weight distribution]
+-t1		[minus exponent for the degree sequence]
+-t2		[minus exponent for the community size distribution]
+-minc		[minimum for the community sizes]
+-maxc		[maximum for the community sizes]
+-on		[number of overlapping nodes]
+-om		[number of memberships of the overlapping nodes]
+-C		[Average clustering coefficient]
+-cnl		[output communities as strings of nodes (input format for NMI evaluation)]
+-name		[base name for the output files]. It is used for the network, communities and statistics; files extensions are added automatically:
+	.nsa  - network, represented by space/tab separated arcs
+	.nse  - network, represented by space/tab separated edges
+	{.cnl, .nmc}  - communities, represented by nodes lists '.cnl' if '-cnl' is used, otherwise as a nodes membership in communities '.nmc')
+	.nst  - network statistics
+-seed		[file name of the random seed, default: seed.txt]
+-a		[yield directed network (arcs) rather than undirected (edges), default: edges]
+
 ```
 
-In this program you can assign the number of overlapping nodes (option -on) and assign the number of memberships for them (option `-om`). The other nodes will have only one membership. For instance, typing 
+In this program you can assign the number of overlapping nodes (option -on) and assign the number of memberships for them (option `-om`). The other nodes will have only one membership. For instance, typing
 ```
 ./benchmark [flags...] -N 1000 -on 20 -om 2
 ```
@@ -109,7 +118,9 @@ Thanks to:
 
 ## Changelog
 Additionally implemented features on top of the original LFR Benchmark are the following:
-- Parameter `-cnl` (ommunity nodes list) added to output communities (clusters) as lists of
+- Parameter `-a` added to specify directed (arcs) / undirected (edges) output network
+- Parameter `-seed` added for the custom seed filename
+- Parameter `-cnl` (community nodes list) added to output communities (clusters) as lists of
 nodes to be compatible with NMI evaluation input format (.cnl)
 - Parameter `-name` added to give custom name for the output files
 - `maxk` is automatically decreased if required for the network generation with the specified `k`
