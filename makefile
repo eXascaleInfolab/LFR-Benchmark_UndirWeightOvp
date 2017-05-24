@@ -1,9 +1,10 @@
 CC=g++
 LOP=-o
-LOPT=-O3 -funroll-loops
+LOPT=-O3
+#-funroll-loops
 
 MAIN=./Sources/benchm
-TAG=benchmark
+TAG=lfrbench_udwov  # LFR Benchmark for undirected weighted links with overlaps
 
 
 $(MAIN).o :

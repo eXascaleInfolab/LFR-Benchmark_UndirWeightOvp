@@ -105,22 +105,22 @@ int irand(int n) {
 }
 
 
-void srand_file(void) {
+void srand_file(const char* seedfile="seed.txt") {
 
-	ifstream in("time_seed.dat");
-	int seed;
-	
-	if (!in.is_open())
-		seed=21111983;
-	else
-		in>>seed;
+	int seed=21111983;
+	{
+		ifstream in(seedfile);
+		
+		if (in.is_open())
+			in>>seed;
+	}
 	
 	if (seed < 1 || seed>R2_IM2)
 		seed=1;
 	
 	
 	srand5(seed);
-	ofstream out("time_seed.dat");
+	ofstream out(seedfile);
 	out<<seed+1<<endl;
 	
 

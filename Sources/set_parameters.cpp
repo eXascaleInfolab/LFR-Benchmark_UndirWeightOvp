@@ -30,12 +30,14 @@ class Parameters {
 		bool defect;
 		bool randomf;
 		double clustering_coeff;
+		bool directed;  // Directed network (arcs) or undirected (edges)
 
 		bool cnodes;  // List communities as string of nodes per each community (such format is used in NMI evaluation)
 		// Output data filenames
 		string fnameNetwork;
 		string fnameCommunity;
 		string fnameStatistics;
+		string fnameSeed;
 		
 		
 		bool set(string &, string &);
@@ -77,11 +79,13 @@ Parameters::Parameters() {
 
 		clustering_coeff=unlikely;
 		
+		directed = false;
 		cnodes = false;
 		
 		fnameNetwork = "network.dat";
 		fnameCommunity = "community.dat";
 		fnameStatistics = "statistics.dat";
+		fnameSeed = "seed.txt";
 
 
 		command_flags.push_back("-N");			//0
@@ -98,7 +102,9 @@ Parameters::Parameters() {
 		command_flags.push_back("-muw");		//11
 		command_flags.push_back("-C");			//12
 		command_flags.push_back("-cnl");		//13
-		command_flags.push_back("-name");		//14
+		command_flags.push_back("-a");			//14
+		command_flags.push_back("-name");		//15
+		command_flags.push_back("-seed");		//16
 			
 		
 };
@@ -264,7 +270,8 @@ bool Parameters::set(string & flag, string & num) {
 	
 	cout<<"setting... "<<flag<<" "<<num<<endl;
 	double err;
-	if(flag != command_flags[14] && !cast_string_to_double(num, err)) {
+	if(flag != command_flags[15] && flag != command_flags[16]
+	&& !cast_string_to_double(num, err)) {
 				
 		cerr<<"\n***********************\nERROR while reading parameters"<<endl;
 		return false;
@@ -380,12 +387,24 @@ bool Parameters::set(string & flag, string & num) {
 			fnameCommunity.replace(fnameCommunity.size() - 4, 4, ".cnl");
 	}
 	else if(flag==command_flags[14]) {
+		directed=cast_int(err);
+		string  ext = directed ? ".nsa" : ".nse";
+		size_t  iext = fnameNetwork.rfind('.');
+		if(iext != string::npos && fnameNetwork.substr(iext) == ext) {
+			fnameNetwork.resize(iext);
+			fnameNetwork += ext;
+		}
+	}
+	else if(flag==command_flags[15]) {
 		fnameNetwork = fnameCommunity = fnameStatistics = num;
-		fnameNetwork += ".nsa";  // Network, represented by tab separated arcs
+		fnameNetwork += directed ? ".nsa" : ".nse";  // Network, represented by tab separated arcs
 		if(cnodes)
 			fnameCommunity += ".cnl";  // Communities nodes lists / Nodes membership in communities
 		else fnameCommunity += ".nmc";  // Communities nodes lists / Nodes membership in communities
 		fnameStatistics += ".nst";  // Network statistics
+	}
+	else if(flag==command_flags[16]) {
+		fnameSeed = num;
 	}
 	else {
 				
@@ -429,13 +448,15 @@ void statement() {
 	cout<<"-name\t\t[base name for the output files]. It is used for the network, communities"
 		" and statistics; files extensions are added automatically:\n"
 		"\t.nsa  - network, represented by space/tab separated arcs\n"
+		"\t.nse  - network, represented by space/tab separated edges\n"
 		"\t{.cnl, .nmc}  - communities, represented by nodes lists '.cnl' if '-cnl' is used"
 			", otherwise as a nodes membership in communities '.nmc')\n"
-		"\t.nst  - network statistics\n"
-		<<endl;
+		"\t.nst  - network statistics\n";
+	cout<<"-seed\t\t[file name of the random seed, default: seed.txt]\n";
+	cout<<"-a\t\t[yield directed network (arcs) rather than undirected (edges), default: edges]\n";
 
 
-	cout<<"----------------------\n"<<endl;
+	cout<<"\n----------------------\n"<<endl;
 	cout<<"It is also possible to set the parameters writing flags and relative numbers in a file. To specify the file, use the option:"<<endl;
 	cout<<"-f\t[filename]"<<endl;
 	cout<<"You can set the parameters both writing some of them in the file, and using flags from the command line for others."<<endl<<endl;

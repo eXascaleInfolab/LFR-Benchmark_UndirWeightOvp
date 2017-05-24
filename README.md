@@ -78,7 +78,7 @@ In the file time_seed.dat you can edit the seed which generates the random numbe
 ### Accessory Options
 
 To have a random network use: `-rand`  
-Using this option will set` mut=0`, `muw=0` and `minc=maxc=N`, i.e. there will be one only community.
+Using this option will set` mut=0`, `muw=0` and `minc=maxc=N`, i.e. there will be only one community.
 
 Use option: `-sup (-inf)`
 

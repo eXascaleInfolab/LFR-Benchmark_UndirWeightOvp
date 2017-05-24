@@ -44,13 +44,13 @@
 
 int print_network(deque<set<int> > & E, const deque<deque<int> > & member_list, const deque<deque<int> > & member_matrix, 
 	deque<int> & num_seq, deque<map <int, double > > & neigh_weigh, double beta, double mu, double mu0, bool cnodes,
-	const string& fnameNetwork, const string& fnameCommunity, const string& fnameStatistics) {
+	const string& fnameNetwork, const bool directed, const string& fnameCommunity, const string& fnameStatistics) {
 
 	
-	int edges=0;
+	int arcs=0;
 
 	
-	int num_nodes=member_list.size();
+	const size_t  num_nodes=member_list.size();
 	
 	deque<double> double_mixing;
 	for (int i=0; i<E.size(); i++) {
@@ -59,7 +59,7 @@ int print_network(deque<set<int> > & E, const deque<deque<int> > & member_list, 
 		
 		double_mixing.push_back(1.- one_minus_mu);
 				
-		edges+=E[i].size();
+		arcs+=E[i].size();
 		
 	}
 	
@@ -108,12 +108,13 @@ int print_network(deque<set<int> > & E, const deque<deque<int> > & member_list, 
 	for (int u=0; u<E.size(); u++) {
 
 		set<int>::iterator itb=E[u].begin();
-	
-		while (itb!=E[u].end())
-			out1<<u+1<<"\t"<<*(itb++)+1<<"\t"<<neigh_weigh[u][*(itb)]<<endl;
-		
-		
 
+		// Output header
+		out1 << "# Nodes: " << num_nodes << ", " << (directed ? "Arcs" : "Edges") << ": "
+			<< (directed ? arcs : arcs / 2) <<  " Weighted: 1" << endl;
+		while (itb!=E[u].end())
+			if(directed || u <= *itb)
+				out1<<u+1<<"\t"<<*(itb++)+1<<"\t"<<neigh_weigh[u][*(itb)]<<endl;
 	}
 		
 
@@ -147,7 +148,7 @@ int print_network(deque<set<int> > & E, const deque<deque<int> > & member_list, 
 	cout<<"\n\n---------------------------------------------------------------------------"<<endl;
 	
 	
-	cout<<"network of "<<num_nodes<<" vertices and "<<edges/2<<" edges"<<";\t average degree = "<<double(edges)/num_nodes<<endl;
+	cout<<"network of "<<num_nodes<<" vertices and "<<arcs/2<<" edges"<<";\t average degree = "<<double(arcs)/num_nodes<<endl;
 	cout<<"\naverage mixing parameter (topology): "<< average_func(double_mixing)<<" +/- "<<sqrt(variance_func(double_mixing))<<endl;
 	cout<<"p_in: "<<density<<"\tp_out: "<<sparsity<<endl;
 
@@ -253,8 +254,8 @@ int print_network(deque<set<int> > & E, const deque<deque<int> > & member_list, 
 	cout<<"average weight of an external link "<<average_func(outwij)<<" +/- "<<sqrt(variance_func(outwij))<<endl;
 
 
-	//cout<<"average weight of an internal link expected "<<tstrength / edges * (1. - mu) / (1. - mu0)<<endl;
-	//cout<<"average weight of an external link expected "<<tstrength / edges * (mu) / (mu0)<<endl;
+	//cout<<"average weight of an internal link expected "<<tstrength / arcs * (1. - mu) / (1. - mu0)<<endl;
+	//cout<<"average weight of an external link expected "<<tstrength / arcs * (mu) / (mu0)<<endl;
 	
 	
 	statout<<"internal weights (weight-occurrences)"<<endl;
@@ -709,8 +710,8 @@ int weights(deque<set<int> > & en, const deque<deque<int> > & member_list, const
 
 int benchmark(bool excess, bool defect, int num_nodes, double  average_k, int  max_degree, double  tau, double  tau2, 
 	double  mixing_parameter, double  mixing_parameter2, double  beta, int  overlapping_nodes, int  overlap_membership,
-	int  nmin, int  nmax, bool  fixed_range, double ca, bool cnodes, const string& fnameNetwork, const string& fnameCommunity,
-	const string& fnameStatistics) {
+	int  nmin, int  nmax, bool  fixed_range, double ca, bool cnodes, const string& fnameNetwork, bool directed,
+	const string& fnameCommunity, const string& fnameStatistics) {
 
 	
 	
@@ -828,11 +829,8 @@ int benchmark(bool excess, bool defect, int num_nodes, double  average_k, int  m
 
 	cout<<"recording network..."<<endl;	
 	print_network(E, member_list, member_matrix, num_seq, neigh_weigh, beta,
-		mixing_parameter2, mixing_parameter, cnodes, fnameNetwork, fnameCommunity, fnameStatistics);
-
-	
-	
-	
+		mixing_parameter2, mixing_parameter, cnodes, fnameNetwork, directed,
+		fnameCommunity, fnameStatistics);
 		
 	return 0;
 	
@@ -866,7 +864,6 @@ void erase_file_if_exists(string s) {
 int main(int argc, char * argv[]) {
 	
 		
-	srand_file();
 	Parameters p;
 	if(set_parameters(argc, argv, p)==false) {
 		
@@ -874,10 +871,10 @@ int main(int argc, char * argv[]) {
 			cerr<<"Please, look at ReadMe.txt..."<<endl;
 		
 		return -1;
-	
 	}
 	
-	
+	srand_file(p.fnameSeed.c_str());
+
 	erase_file_if_exists(p.fnameNetwork);
 	erase_file_if_exists(p.fnameCommunity);
 	erase_file_if_exists(p.fnameStatistics);
@@ -886,7 +883,7 @@ int main(int argc, char * argv[]) {
 	benchmark(p.excess, p.defect, p.num_nodes, p.average_k, p.max_degree,
 		p.tau, p.tau2, p.mixing_parameter,  p.mixing_parameter2,  p.beta,
 		p.overlapping_nodes, p.overlap_membership, p.nmin, p.nmax, p.fixed_range,
-		p.clustering_coeff, p.cnodes, p.fnameNetwork, p.fnameCommunity, p.fnameStatistics);
+		p.clustering_coeff, p.cnodes, p.fnameNetwork, p.directed, p.fnameCommunity, p.fnameStatistics);
 		
 	return 0;
 	
