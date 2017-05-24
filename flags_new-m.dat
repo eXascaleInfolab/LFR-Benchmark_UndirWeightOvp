@@ -1,0 +1,14 @@
+-name net50K
+-N 50000
+-k 75
+-maxk 802
+-mut 0.275
+-muw 0.20625
+-beta 1.5
+-t1 1.75
+-t2 1.35
+-minc 9
+-maxc 16666
+-on 3781
+-om 2
+-cnl 1
