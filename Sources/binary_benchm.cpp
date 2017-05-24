@@ -68,23 +68,24 @@ double solve_dmin(int& dmax, const double &dmed, const double &gamma) {
 	double dmin_r=dmax;
 	double average_k1=average_degree(dmin_r, dmin_l, gamma);
 	double average_k2=dmin_r;
+	short  attempts = 3;
 
-	if (average_k1-dmed>0) {
-		// Try to automatically reduce dmax
+	if(average_k1-dmed>0)
 		cout << "k1: " << average_k1 << ", dmed: " << dmed << ", k2: " << average_k2 << endl;
+	while (average_k1-dmed>0 && --attempts) {
+		// Try to automatically reduce dmax
 		double tdmax = int(pow(dmed, log(dmax) / log(average_k1)) * (1 - log(1 + average_k1-dmed)/10));
 		double taverage_k1=average_degree(tdmax, dmin_l, gamma);
 		double taverage_k2=tdmax;
 		cout << "WARNING: trying to decrease the maximum degree from "
 			 << dmax << " to " << tdmax << " to converge\n";
 		cout << "k1: " << taverage_k1 << ", dmed: " << dmed << ", k2: " << taverage_k2 << endl;
-		if (!(taverage_k1-dmed>0 || taverage_k2-dmed<0)) {
-			dmax = dmin_r = tdmax;
-			average_k1 = taverage_k1;
-			average_k2 = taverage_k2;
+		dmax = dmin_r = tdmax;
+		average_k1 = taverage_k1;
+		average_k2 = taverage_k2;
+		if (!(average_k1-dmed>0 || average_k2-dmed<0))
 			cout << "\nWARNING: maximum degree is automatically decreased to "
 				 << dmax << " to converge\n" << endl;
-		}
 	}
 	
 	
