@@ -107,14 +107,12 @@ int print_network(deque<set<int> > & E, const deque<deque<int> > & member_list, 
 	ofstream out1(fnameNetwork.c_str());
 	// Output the header
 	out1 << "# Nodes: " << num_nodes << ", " << (directed ? "Arcs" : "Edges") << ": "
-		<< (directed ? arcs : arcs / 2) <<  " Weighted: 1" << endl;
+		<< (directed ? arcs : arcs / 2) <<  ", Weighted: 1" << endl;
 	for (int u=0; u<E.size(); u++) {
 
-		set<int>::iterator itb=E[u].begin();
-
-		while (itb!=E[u].end())
+		for(set<int>::iterator itb=E[u].begin(); itb != E[u].end(); ++itb)
 			if(directed || u <= *itb)
-				out1<<u+1<<"\t"<<*(itb++)+1<<"\t"<<neigh_weigh[u][*(itb)]<<endl;
+				out1<<u+1<<"\t"<<*itb+1<<"\t"<<neigh_weigh[u][*(itb)]<<endl;
 	}
 		
 

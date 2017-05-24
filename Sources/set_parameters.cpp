@@ -216,6 +216,7 @@ bool Parameters::arrange() {
 	
 	
 	cout<<"\n**************************************************************"<<endl;
+	cout<<"network:\t"<<fnameNetwork<<endl;
 	cout<<"number of nodes:\t"<<num_nodes<<endl;
 	cout<<"average degree:\t"<<average_k<<endl;
 	cout<<"maximum degree:\t"<<max_degree<<endl;
@@ -390,7 +391,7 @@ bool Parameters::set(string & flag, string & num) {
 		directed=cast_int(err);
 		string  ext = directed ? ".nsa" : ".nse";
 		size_t  iext = fnameNetwork.rfind('.');
-		if(iext != string::npos && fnameNetwork.substr(iext) == ext) {
+		if(iext != string::npos && fnameNetwork.substr(iext) != ext) {
 			fnameNetwork.resize(iext);
 			fnameNetwork += ext;
 		}
