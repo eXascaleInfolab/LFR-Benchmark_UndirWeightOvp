@@ -107,23 +107,18 @@ int irand(int n) {
 
 void srand_file(const char* seedfile="seed.txt") {
 
-	int seed=21111983;
+	size_t  seed = 20170527015808;  // 21111983;
 	{
 		ifstream in(seedfile);
 		
 		if (in.is_open())
-			in>>seed;
+			in >> seed;
 	}
 	
-	if (seed < 1 || seed>R2_IM2)
-		seed=1;
-	
-	
-	srand5(seed);
+	srand5(seed % R2_IM2 + 1);  // [1, R2_IM2]
 	ofstream out(seedfile);
-	out<<seed+1<<endl;
+	out << ++seed << endl;
 	
-
 }
 
 
