@@ -274,7 +274,7 @@ bool Parameters::set(string & flag, string & num) {
 	if(flag != command_flags[15] && flag != command_flags[16]
 	&& !cast_string_to_double(num, err)) {
 				
-		cerr<<"\n***********************\nERROR while reading parameters"<<endl;
+		cerr<<"\n***********************\nERROR while reading parameters (floating point cast failed)"<<endl;
 		return false;
 			
 	}	
@@ -529,7 +529,7 @@ bool set_from_file(string & file_name, Parameters & par1) {
 			if(temp2.size()>0) {
 			
 				
-				if(temp=="-f" && temp2!=file_name) {
+				if(temp=="-f" && temp2 != file_name) {
 					if(set_from_file(temp2, par1)==false)
 						return false;
 				}
@@ -544,7 +544,7 @@ bool set_from_file(string & file_name, Parameters & par1) {
 		
 			else {
 			
-				cerr<<"\n***********************\nERROR while reading parameters"<<endl;
+				cerr<<"\n***********************\nERROR while reading parameters set_from_file()"<<endl;
 				return false;
 		
 			}
@@ -622,7 +622,8 @@ bool set_parameters(int argc, char * argv[], Parameters & par1) {
 		
 			else {
 			
-				cerr<<"\n***********************\nERROR while reading parameters"<<endl;
+				cerr<<"\n***********************\nERROR while reading parameters set_parameters(), arg: "
+					<< temp << endl;
 				return false;
 		
 			}
