@@ -82,7 +82,7 @@ Since other constraints must be fulfilled, if the wished value will not be reach
 
 ### Random Seed
 
-In the file time_seed.dat you can edit the seed which generates the random numbers. After reading, the program will increase this number by 1 (this is done to generate different networks running the program again and again). If the file is erased, it will be produced by the program again.
+In the specified seed file (default is seed.txt) you can edit the seed which generates the random numbers. After reading, the program will increase this number by 1 (this is done to generate different networks running the program again and again). If the file is erased, it will be produced by the program again.
 
 ### Accessory Options
 
@@ -106,9 +106,9 @@ Please note that the community size distribution can be modified by the program 
 
 The program will produce three files:
 
-1. Network.dat contains the list of edges (nodes are labelled from 1 to the number of nodes; the edges are ordered and repeated twice, i.e. source-target and target-source), with the relative weight.
-1. Community.dat contains a list of the nodes and their membership (memberships are labelled by integer numbers >=1).
-1. Statistics.dat contains the degree distribution (in logarithmic bins), the community size distribution, the distribution of the mixing parameter for the topology and the weights, and the internal and external weight distribution.
+1. Network file `Network.<nsl>` contains the list of edges (nodes are labelled from 1 to the number of nodes; the edges are ordered and repeated twice for nsa format and unordered (not repeated) for the nse format, i.e. source-target and target-source), with the relative weight. The [NSL format](https://github.com/eXascaleInfolab/PyCABeM/blob/master/formats/format.nsl), the network specified by <links> (arcs / edges), is a generalization of the .snap, .ncol and Edge/Arcs Graph formats.
+1. Community file `Network.nmc` contains a list of the nodes and their membership (memberships are labeled by integer numbers >=1).
+1. Statistics file `Network.nst` contains the degree distribution (in logarithmic bins), the community size distribution, the distribution of the mixing parameter for the topology and the weights, and the internal and external weight distribution.
 
 ## Acknowledgement
 Thanks to:
@@ -120,7 +120,7 @@ Thanks to:
 Additionally implemented features on top of the original LFR Benchmark are the following:
 - Parameter `-a` added to specify directed (arcs) / undirected (edges) output network
 - Parameter `-seed` added for the custom seed filename
-- Parameter `-cnl` (community nodes list) added to output communities (clusters) as lists of
+- Parameter `-cnl` ([community nodes list](https://github.com/eXascaleInfolab/PyCABeM/blob/master/formats/format.cnl)) added to output communities (clusters) as lists of
 nodes to be compatible with NMI evaluation input format (.cnl)
 - Parameter `-name` added to give custom name for the output files
 - `maxk` is automatically decreased if required for the network generation with the specified `k`
@@ -128,6 +128,6 @@ nodes to be compatible with NMI evaluation input format (.cnl)
 
 ## Related Projects
 - [PyCABeM](https://github.com/eXascaleInfolab/PyCABeM) - Python Benchmarking Framework for the Clustering Algorithms Evaluation. Uses extrinsic (NMIs) and intrinsic (Q) measures for the clusters quality evaluation considering overlaps (nodes membership by multiple clusters).
-- [PyNetConvert](https://raw.githubusercontent.com/eXascaleInfolab/PyNetConvert) - Network (graph, dataset) converter from Pajek, Metis and .nsl formats (including *.ncol*, Stanford SNAP and Edge/Arcs Graph) to *.nsl* (*.nse/a* that are more common than *.snap* and *.ncol*) and *.rcg* (Readable Compact Graph, former *.hig*; used by DAOC / HiReCS libs) formats.
+- [PyNetConvert](https://github.com/eXascaleInfolab/PyNetConvert) - Network (graph, dataset) converter from Pajek, Metis and .nsl formats (including *.ncol*, Stanford SNAP and Edge/Arcs Graph) to *.nsl* (*.nse/a* that are more common than *.snap* and *.ncol*) and *.rcg* (Readable Compact Graph, former *.hig*; used by DAOC / HiReCS libs) formats.
 
 **Note:** Please, [star this project](https://github.com/eXascaleInfolab/LFR-Benchmark_UndirWeightOvp) if you use it.

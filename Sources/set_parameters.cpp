@@ -454,7 +454,7 @@ void statement() {
 			", otherwise as a nodes membership in communities '.nmc')\n"
 		"\t.nst  - network statistics\n";
 	cout<<"-seed\t\t[file name of the random seed, default: seed.txt]\n";
-	cout<<"-a\t\t[yield directed network (arcs) rather than undirected (edges), default: edges]\n";
+	cout<<"-a\t\t[{0, 1} yield directed network (1 - arcs) rather than undirected (0 - edges), default: 0 - edges]\n";
 
 
 	cout<<"\n----------------------\n"<<endl;
