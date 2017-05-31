@@ -40,7 +40,7 @@ To run the program, type:
 ```
 ./benchmark [FLAG] [P]
 
-[FLAG]		[P]
+To set the parameters, type:
 -N		[number of nodes]
 -k		[average degree]
 -maxk		[maximum degree]
@@ -61,7 +61,7 @@ To run the program, type:
 	{.cnl, .nmc}  - communities, represented by nodes lists '.cnl' if '-cnl' is used, otherwise as a nodes membership in communities '.nmc')
 	.nst  - network statistics
 -seed		[file name of the random seed, default: seed.txt]
--a		[yield directed network (arcs) rather than undirected (edges), default: edges]
+-a		[{0, 1} yield directed network (1 - arcs) rather than undirected (0 - edges), default: 0 - edges]
 
 ```
 
@@ -106,7 +106,7 @@ Please note that the community size distribution can be modified by the program 
 
 The program will produce three files:
 
-1. Network file `Network.<nsl>` contains the list of edges (nodes are labelled from 1 to the number of nodes; the edges are ordered and repeated twice for nsa format and unordered (not repeated) for the nse format, i.e. source-target and target-source), with the relative weight. The [NSL format](https://github.com/eXascaleInfolab/PyCABeM/blob/master/formats/format.nsl), the network specified by <links> (arcs / edges), is a generalization of the .snap, .ncol and Edge/Arcs Graph formats.
+1. Network file `Network.<nsl>` contains the list of edges (nodes are labelled from 1 to the number of nodes; the edges are ordered and repeated twice for `nsa` format and unordered (not repeated) for the `nse` format, i.e. source-target and target-source), with the relative weight. The [NSL format](https://github.com/eXascaleInfolab/PyCABeM/blob/master/formats/format.nsl), the network specified by <links> (arcs / edges), is a generalization of the .snap, .ncol and Edge/Arcs Graph formats.
 1. Community file `Network.nmc` contains a list of the nodes and their membership (memberships are labeled by integer numbers >=1).
 1. Statistics file `Network.nst` contains the degree distribution (in logarithmic bins), the community size distribution, the distribution of the mixing parameter for the topology and the weights, and the internal and external weight distribution.
 
