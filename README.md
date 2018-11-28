@@ -19,7 +19,8 @@ Original sources:
 
 > This is an extended version of the original LFR framework (see the [changelog](#changelog)) by Artem Lutov <artem@exascale.info>
 
-## Content
+## Content  <!-- Omit in TOC -->
+- [Description](#description)
 - [Compilation](#compilation)
 - [Usage](#usage)
   - [Random Seed](#random-seed)
@@ -127,7 +128,7 @@ nodes to be compatible with NMI evaluation input format (.cnl)
 (instead of the generation process termination)
 
 ## Related Projects
-- [PyCABeM](https://github.com/eXascaleInfolab/PyCABeM) - Python Benchmarking Framework for the Clustering Algorithms Evaluation. Uses extrinsic (NMIs) and intrinsic (Q) measures for the clusters quality evaluation considering overlaps (nodes membership by multiple clusters).
+- [Clubmark](https://github.com/eXascaleInfolab/clubmark) - A parallel isolation framework for benchmarking and profiling clustering (community detection) algorithms considering overlaps (covers).
 - [PyNetConvert](https://github.com/eXascaleInfolab/PyNetConvert) - Network (graph, dataset) converter from Pajek, Metis and .nsl formats (including *.ncol*, Stanford SNAP and Edge/Arcs Graph) to *.nsl* (*.nse/a* that are more common than *.snap* and *.ncol*) and *.rcg* (Readable Compact Graph, former *.hig*; used by DAOC / HiReCS libs) formats.
 
 **Note:** Please, [star this project](https://github.com/eXascaleInfolab/LFR-Benchmark_UndirWeightOvp) if you use it.
