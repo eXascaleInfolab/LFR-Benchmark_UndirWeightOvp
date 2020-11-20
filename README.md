@@ -20,20 +20,23 @@ Original sources:
 > This is an extended version of the original LFR framework (see the [changelog](#changelog)) by Artem Lutov <artem@exascale.info>
 
 ## Content  <!-- Omit in TOC -->
-- [Description](#description)
-- [Compilation](#compilation)
-- [Usage](#usage)
-  - [Random Seed](#random-seed)
-  - [Accessory Options](#accessory-options)
-- [Examples](#examples)
-- [Output](#output)
-- [Acknowledgement](#acknowledgement)
-- [Changelog](#changelog)
-- [Related Projects](#related-projects)
+- [LFR-Benchmark_UndirWeightOvp](#lfr-benchmark_undirweightovp)
+	- [Description](#description)
+	- [Content](#content)
+	- [Compilation](#compilation)
+	- [Usage](#usage)
+		- [Random Seed](#random-seed)
+		- [Accessory Options](#accessory-options)
+	- [Examples](#examples)
+	- [Output](#output)
+	- [Acknowledgement](#acknowledgement)
+	- [Changelog](#changelog)
+	- [Related Projects](#related-projects)
 
 ## Compilation
 
-In order to compile, type: `$ make`
+In order to compile, type: `$ make`.  
+This command builds the binary named `TAG=lfrbench_udwo` as specified in the `./makefile`. In the following description, the application (`lfrbench_udwo`) is referred to as `benchmark` for convenience.
 
 ## Usage
 

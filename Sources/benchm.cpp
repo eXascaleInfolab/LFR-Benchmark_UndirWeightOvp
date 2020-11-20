@@ -33,8 +33,8 @@
  *
  *  Changelog:
  *  - Parameter "-cnl" (ommunity nodes list) added to output communities as line of
- *  nodes to be compatible with NMI evaluation input format
- *  - Parameters "-name" added to give custom name for the output files
+ *  nodes to be compatible with the input format of NMI and MF1 accuracy measures
+ *  - Parameters "-name" added to provide a custom name for the output file
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
 
