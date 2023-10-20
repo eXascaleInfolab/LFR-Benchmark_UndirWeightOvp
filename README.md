@@ -66,7 +66,6 @@ To set the parameters, type:
 	.nst  - network statistics
 -seed		[file name of the random seed, default: seed.txt]
 -a		[{0, 1} yield directed network (1 - arcs) rather than undirected (0 - edges), default: 0 - edges]
-
 ```
 
 In this program you can assign the number of overlapping nodes (option -on) and assign the number of memberships for them (option `-om`). The other nodes will have only one membership. For instance, typing
