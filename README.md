@@ -90,7 +90,7 @@ In the specified seed file (default is seed.txt) you can edit the seed which gen
 ### Accessory Options
 
 To have a random network use: `-rand`  
-Using this option will set` mut=0`, `muw=0` and `minc=maxc=N`, i.e. there will be only one community.
+Using this option will set `mut=0`, `muw=0` and `minc=maxc=N`, i.e. there will be only one community.
 
 Use option: `-sup (-inf)`
 
