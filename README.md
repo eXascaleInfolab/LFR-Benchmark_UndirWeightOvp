@@ -66,7 +66,6 @@ To set the parameters, type:
 	.nst  - network statistics
 -seed		[file name of the random seed, default: seed.txt]
 -a		[{0, 1} yield directed network (1 - arcs) rather than undirected (0 - edges), default: 0 - edges]
-
 ```
 
 In this program you can assign the number of overlapping nodes (option -on) and assign the number of memberships for them (option `-om`). The other nodes will have only one membership. For instance, typing
@@ -91,7 +90,7 @@ In the specified seed file (default is seed.txt) you can edit the seed which gen
 ### Accessory Options
 
 To have a random network use: `-rand`  
-Using this option will set` mut=0`, `muw=0` and `minc=maxc=N`, i.e. there will be only one community.
+Using this option will set `mut=0`, `muw=0` and `minc=maxc=N`, i.e. there will be only one community.
 
 Use option: `-sup (-inf)`
 
